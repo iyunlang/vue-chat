@@ -1,0 +1,58 @@
+{
+  "id": "2658037",
+  "name": "chat",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "435968",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e7db",
+      "unicode_decimal": 59355
+    },
+    {
+      "icon_id": "1440157",
+      "name": "添加",
+      "font_class": "tubiaozhizuomoban",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "21009389",
+      "name": "默认头像",
+      "font_class": "morentouxiang",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "493216",
+      "name": "好友",
+      "font_class": "haoyou",
+      "unicode": "e783",
+      "unicode_decimal": 59267
+    },
+    {
+      "icon_id": "7674878",
+      "name": "通讯录",
+      "font_class": "cedaohang-tongxunlu",
+      "unicode": "e711",
+      "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "15994972",
+      "name": "通讯录",
+      "font_class": "tongxunlu1",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "18655429",
+      "name": "信息",
+      "font_class": "hanhan-01-01",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    }
+  ]
+}
