@@ -1,16 +1,28 @@
 <template>
   <div class="search-wrapper">
-      <input type="text" class="search-input" placeholder="Search">
-      <icon-font name="icon-tubiaozhizuomoban" :color="'#fff'"/>
+      <input type="text" v-model="search" class="search-input" placeholder="User name">
+      <icon-svg @click="handleSearch" name="tubiaozhizuomoban" size="34px" :color="'#fff'"/>
   </div>
 </template>
 
 <script>
-
+import { ref } from 'vue'
 export default {
   name: 'ChatSearch',
   props: {
     
+  },
+  setup() {
+    const search = ref("")
+
+    function handleSearch() {
+      console.log(search.value)
+    }
+
+    return {
+      search,
+      handleSearch,
+    }
   }
 }
 </script>
@@ -36,7 +48,8 @@ export default {
 .search-input {
   float: left;
   width: 188px;
-  height: 42px;
+  width: calc(100% - 52px);
+  height: 34px;
   padding: 0 15px;
   border: 1px solid var(--light);
   background-color: #eceff1;
@@ -47,16 +60,11 @@ export default {
 .search-input:focus {
   outline: none;
 }
-.icon-font {
+.icon-svg {
   display: block;
   float: left;
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
   margin-left: 10px;
-  border: 1px solid var(--light);
-  background-color: var(--blue);
-  background-repeat: no-repeat;
-  background-position: top 12px left 14px;
-  border-radius: 50%;
 }
 </style>

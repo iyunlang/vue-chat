@@ -4,16 +4,21 @@
     :src="src" 
     :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
     alt="" 
+    @click="handleClick"
     :style="{
       width:size,
       height:size,
     }">
+    <modal-userinfo :show="showUserinfo" :position="position" />
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { getMousePos } from '../../../hooks/web/useMouse'
+import { ModalUserinfo } from '../../Modal'
 export default defineComponent({
   name: 'ImgAvatar',
+  components: { ModalUserinfo },
   props: {
     size: {
       type: String,
@@ -22,7 +27,21 @@ export default defineComponent({
     src: String
   },
   setup() {
+
+    const showUserinfo = ref(false)
+    const position = ref("")
+
+    function handleClick(e) {
+      let pos = getMousePos(e)
+      console.log(pos)
+      position.value = `${pos.x}px ${pos.y}px`
+      showUserinfo.value = true
+    }
+
     return {
+      handleClick,
+      showUserinfo,
+      position,
     }
   }
 })

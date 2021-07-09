@@ -1,24 +1,27 @@
 <template>
-  <AppProvider>
-    <router-view />
-  </AppProvider>
-  <div class="chat-wrapper">
-      <div class="chat-container">
-          <LayoutNav/>
-          <div class="chat-main">
-            <LayoutLeft/>
-            <LayoutCenter/>
-          </div>
-      </div>
-  </div>
-  
+  <app-provider>
+    <!-- <router-view /> -->
+    <div class="chat-wrapper">
+        <div class="chat-container">
+            <layout-nav/>
+            <div class="chat-main">
+              <layout-left/>
+              <layout-center/>
+              <layout-right/>
+            </div>
+        </div>
+    </div>
+  </app-provider>
 </template>
 
 <script>
+import { ref} from 'vue'
+
 import AppProvider from './components/AppProvider.vue'
 import LayoutNav from './components/LayoutNav.vue'
 import LayoutLeft from './components/LayoutLeft.vue'
 import LayoutCenter from './components/LayoutCenter.vue'
+import LayoutRight from './components/LayoutRight.vue'
 
 export default {
   name: 'App',
@@ -27,23 +30,33 @@ export default {
     LayoutNav,
     LayoutLeft,
     LayoutCenter,
+    LayoutRight,
+  },
+  setup() {
+    const showRight = ref(false)
+    return {
+      showRight,
+    }
   }
 }
 </script>
 
 <style>
-#app {
-
+html, body, #app {
+  width: 100%;
+  height: 100%;
 }
 .chat-wrapper {
   position: relative;
   left: 50%;
   width: var(--wrapper);
-  height: 800px;
+  /* min-height: 600px; */
+  height: 100%;
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
 }
 .chat-container {
+  box-sizing: border-box;
   position: relative;
   top: 50%;
   left: 50%;
@@ -54,9 +67,18 @@ export default {
           transform: translate(-50%, -50%);
 }
 .chat-main {
+  position: relative;
   height: 100%;
   margin-left: 60px;
   background-color: var(--white);
+  overflow: hidden;
+}
+.chat-wrapper.full {
+  width: 100%;
+}
+.chat-wrapper.full .chat-container {
+  width: 100%;
+  height: 100%;
 }
 
 </style>

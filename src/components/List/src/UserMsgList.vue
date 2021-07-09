@@ -1,4 +1,5 @@
 <template>
+  <scroll-box :style="{height:scrollH}">
     <div class="msg-wrapper">
       <ul class="msg-list">
           <li class="msg-cart" data-chat="person1">
@@ -15,13 +16,24 @@
           </li>
       </ul>
     </div>
+  </scroll-box>
 </template>
 
 <script>
+import { ref} from 'vue'
+import ScrollBox from './ScrollBox.vue'
 export default {
   name: 'UserMsgList',
+  components: { ScrollBox },
   props: {
     
+  },
+  setup() {
+    const scrollH = ref(`calc(100% - ${'74px'})`)
+
+    return {
+      scrollH,
+    }
   }
 }
 </script>
