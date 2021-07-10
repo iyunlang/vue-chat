@@ -1,6 +1,7 @@
 <template>
     <img 
     class="img-avatar"
+    :class="imgClass"
     :src="src" 
     :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
     alt="" 
@@ -9,7 +10,7 @@
       width:size,
       height:size,
     }">
-    <modal-userinfo :show="showUserinfo" :position="position" />
+    <modal-userinfo :position="position" :show="showModal" @close="handleCloseModal" />
 </template>
 
 <script>
@@ -22,26 +23,38 @@ export default defineComponent({
   props: {
     size: {
       type: String,
-      value: "38px",
+      default: "38px",
     },
-    src: String
+    src: String,
+    hasInfo: {
+      type: Boolean,
+      default: false
+    },
+    imgClass: String, Object,
   },
-  setup() {
+  setup(props) {
 
-    const showUserinfo = ref(false)
+    const showModal = ref(false)
     const position = ref("")
 
     function handleClick(e) {
-      let pos = getMousePos(e)
-      console.log(pos)
-      position.value = `${pos.x}px ${pos.y}px`
-      showUserinfo.value = true
+      console.log(props.hasInfo)
+      if(props.hasInfo) {
+        let pos = getMousePos(e)
+        position.value = `${pos.x}px ${pos.y}px`
+        showModal.value = true
+      }
+    }
+
+    function handleCloseModal() {
+      showModal.value = false
     }
 
     return {
       handleClick,
-      showUserinfo,
+      showModal,
       position,
+      handleCloseModal,
     }
   }
 })
@@ -52,5 +65,6 @@ export default defineComponent({
     width: 38px;
     height: 38px;
     background-color: #f5f5f5;
+    border-radius: 4px;
   }
 </style>

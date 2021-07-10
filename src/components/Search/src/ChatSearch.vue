@@ -1,7 +1,6 @@
 <template>
   <div class="search-wrapper">
-      <input type="text" v-model="search" class="search-input" placeholder="User name">
-      <icon-svg @click="handleSearch" name="tubiaozhizuomoban" size="34px" :color="'#fff'"/>
+      <input type="text" v-model="search" class="search-input" placeholder="User name" @input="handleSearch">
   </div>
 </template>
 
@@ -30,25 +29,13 @@ export default {
 <style scoped>
 @import url("../../../styles/index.css");
 .search-wrapper {
-  position: relative;
-  width: 100%;
   overflow: hidden;
-  padding: 20px 10px;
-}
-.search-wrapper:after {
-  position: absolute;
-  bottom: 0;
-  left: 10px;
-  right: 10px;
-  display: block;
-  height: 1px;
-  content: '';
-  background-color: var(--light);
 }
 .search-input {
   float: left;
-  width: 188px;
-  width: calc(100% - 52px);
+  /* width: 188px;
+  width: calc(100% - 52px); */
+  width: 100%;
   height: 34px;
   padding: 0 15px;
   border: 1px solid var(--light);
@@ -59,12 +46,5 @@ export default {
 }
 .search-input:focus {
   outline: none;
-}
-.icon-svg {
-  display: block;
-  float: left;
-  width: 34px;
-  height: 34px;
-  margin-left: 10px;
 }
 </style>

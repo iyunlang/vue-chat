@@ -3,13 +3,13 @@
     <div class="msg-wrapper">
       <ul class="msg-list">
           <li class="msg-cart" data-chat="person1">
-              <img-avatar src=""/>
+              <img-avatar imgClass="msg-avatar" hasInfo src=""/>
               <span class="msg-name">Thomas Bangalter</span>
               <span class="msg-time">2:09 PM</span>
               <span class="msg-preview">I was wondering...</span>
           </li>
           <li class="msg-cart" data-chat="person2">
-              <img-avatar src=""/>
+              <img-avatar imgClass="msg-avatar" hasInfo src=""/>
               <span class="msg-name">Dog Woofson</span>
               <span class="msg-time">2:09 PM</span>
               <span class="msg-preview">I was wondering...</span>
@@ -64,12 +64,9 @@ export default {
   content: '';
   background-color: var(--light);
 }
-.img-avatar {
+.msg-cart >>> .msg-avatar {
   float: left;
-  width: 40px;
-  height: 40px;
   margin-right: 12px;
-  border-radius: 50%;
 }
 .msg-name {
   font-size: 14px;

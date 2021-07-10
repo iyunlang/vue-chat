@@ -1,6 +1,6 @@
 <template>
   <div class="modal-base" v-if="isShow">
-    <div class="mask" @click="handleClose"></div>
+    <div class="mask" @click="handleClose" :style="{opacity}"></div>
     <div class="popup" :style="popupStyle">
       <slot />
     </div>
@@ -13,25 +13,29 @@ export default {
   name: 'ModalBase',
   components: {  },
   props: {
+    opacity: {
+      type: Number,
+      default: 0,
+    },
     show: {
       type: Boolean,
-      value: false,
+      default: false,
     },
     width: {
       type: String,
-      value: "300px",
+      default: "300px",
     },
     height: {
       type: String,
-      value: "200px",
+      default: "200px",
     },
     position: {
       type: String,
-      value: "center center",
+      default: "center center",
     },
     origin: {
       type: String,
-      value: "center center",
+      default: "center center",
     },
   },
   emits: ["close"],
@@ -111,6 +115,8 @@ export default {
 @import url("../../../styles/index.css");
 .popup {
   z-index: 2;
+  position: absolute;
+  /* box-shadow: 0 0 10px 0 rgba(0,0,0,0.12); */
 }
 .modal-base {
   position: fixed;

@@ -1,31 +1,42 @@
 <template>
     <div class="chat-nav">
-        <img-avatar src=""/>
-        <icon-svg class="active" name="hanhan-01-01" bg :color="color"/>
-        <icon-svg name="haoyou" bg :color="color"/>
-        <!-- <img src="./assets/img/thomas.jpg" alt=""> -->
-        <!-- <svg class="icon active" aria-hidden="true">
-            <use xlink:href="#icon-hanhan-01-01"></use>
-        </svg>
-        <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-haoyou"></use>
-        </svg> -->
+        <img-avatar hasInfo src=""/>
+        <icon-svg v-for="icon in icons" v-bind:key="icon.key" :class="k === icon.key ? 'active': ''" @click="handleClick(icon.key)" :name="icon.name" bg :color="color"/>
     </div>
 </template>
 
 <script>
-
+import { ref } from 'vue'
 export default {
   components: { },
   name: 'LayoutNav',
   props: {
-
+    active: {
+      type: String,
+      default: "msg"
+    }
   },
-  setup() {
+  emits: ["change"],
+  setup(props, { emit }) {
+    const k = ref(props.active)
+
+    const icons = [
+      { name: 'hanhan-01-01', key: 'msg' },
+      { name: 'haoyou', key: 'person' },
+    ]
     const iconProps = {
       color: '#fff',
     }
+
+    function handleClick(val) {
+      k.value = val
+      emit("change", val)
+    }
+
     return {
+      k,
+      icons,
+      handleClick,
       ...iconProps,
     }
   }
@@ -42,16 +53,11 @@ export default {
   border-right: none;
   background-color: var(--dark);
   text-align: center;
+  padding-top: 20px;
 }
 .icon-svg {
   margin-top: 20px;
   cursor: pointer;
-}
-.img-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 3px;
-  margin-top: 20px;
 }
 
 .icon-svg:hover,

@@ -19,8 +19,11 @@ export function useMouse(){
 export function getClient(el = document) {
 
   return {
-    x: el.offsetLeft,
-    y: el.offsetTop,
+    x: el.getBoundingClientRect().left,
+    y: el.getBoundingClientRect().top,
+    w: el.offsetWidth,
+    h: el.offsetHeight,
+
   }
 }
 
@@ -49,14 +52,34 @@ export function findParents(el, classname, deep) {
   return parent;
 }
 
+export function getDistanceFromtarget(el, classname, deep) {
+  let parent = el.parentNode
+  deep = deep || 100000
+  let result = { x: el.offsetLeft, y: el.offsetTop }
+  while (!isElClassName(parent, classname)) {
+    console.log(parent.offsetLeft, parent.offsetTop, parent)
+    result.x += parent.offsetLeft
+    result.y += parent.offsetTop
+    parent = parent.parentNode
+    deep --;
+    if(deep < 0) {
+      result = null
+      break;
+    }
+  }
+  return result;
+}
+
 export function getMousePos(event) {
+  let offset = -8
   let el = event.target
   let parent = findParents(el, "chat-container")
   if(!parent) return null
-  let client = getClient(parent)
-  let tar = getClient(el)
-  let e = event || window.event;
-  console.log(5, tar, client, e.clientX)
-  return {'x':el.clientLeft - client.x,'y':el.clientTop - client.y}
-  // return {'x':tar.x - client.x,'y':tar.y - client.y}
+  let parentC = getClient(parent)
+  let elC = getClient(el)
+  // // let e = event || window.event;
+  return {
+    x:elC.x - parentC.x + elC.w + offset,
+    y:elC.y - parentC.y + elC.h + offset,
+  }
 }

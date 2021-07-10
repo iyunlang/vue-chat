@@ -3,9 +3,9 @@
     <!-- <router-view /> -->
     <div class="chat-wrapper">
         <div class="chat-container">
-            <layout-nav/>
+            <layout-nav :active="key" @change="handleNavChange"/>
             <div class="chat-main">
-              <layout-left/>
+              <layout-left :active="key" />
               <layout-center/>
               <layout-right/>
             </div>
@@ -33,9 +33,17 @@ export default {
     LayoutRight,
   },
   setup() {
+    const key = ref("msg")
     const showRight = ref(false)
+
+    function handleNavChange(val) {
+      key.value = val
+    }
+
     return {
+      key,
       showRight,
+      handleNavChange,
     }
   }
 }
