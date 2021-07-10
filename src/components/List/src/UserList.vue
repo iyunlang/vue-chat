@@ -18,6 +18,10 @@ export default {
   name: 'UserList',
   components: { ScrollBox, CardUser },
   props: {
+    append: {
+      type: Boolean,
+      default: false,
+    },
     list: {
       type: Array,
       default: new Array(),
@@ -37,71 +41,76 @@ export default {
     const scrollH = ref(`100%`)
     const thislist = reactive({ list: props.list})
     const activeIds = reactive({ list: props.activelist})
-    const thisActivelist = reactive({ list: []})
 
     watch(
       props, 
       (newVal) => { 
-        // let k = newVal.key
-        // if(newVal.list.length > 0) {
-        //   let keys = toRaw(thislist.list).map(item => item[k])
-        //   const list = toRaw(newVal.list)
-        //   let newlist = []
-        //   for(let item of list) {
-        //     if(keys.indexOf(item[k]) < 0) {
-        //       newlist.push(item)
-        //     }
-        //   }
-        //   thislist.list = [ ...toRaw(thislist.list), ...newlist ]
-        // }
-        // if(newVal.activelist.length > 0) {
-        //   let keys = toRaw(thisActivelist.list)
-        //   const list = toRaw(newVal.activelist)
-        //   let newlist = []
-        //   for(let item of list) {
-        //     if(keys.indexOf(item) < 0) {
-        //       newlist.push(item)
-        //     }
-        //   }
-        //   thisActivelist.list = [ ...toRaw(thisActivelist.list), ...newlist ]
-        // }
-        thislist.list = newVal.list
-        activeIds.list = newVal.activelist
-        let k = newVal.key
-        let activeKeys = newVal.list.map(item => item[k])
-        for(let item of newVal.list) {
-          if(newVal.activelist.indexOf(item[k]) > -1 && activeKeys.indexOf(item[k]) < 0) {
-            thisActivelist.list.push(item)
-          }
-        }
-        console.log(333, toRaw(newVal.list), toRaw(newVal.activelist), toRaw(thisActivelist.list))
+        activeIds.list = newVal.append ? concatArray(toRaw(activeIds.list),toRaw(newVal.activelist)) : toRaw(newVal.activelist)
+        thislist.list = newVal.append ? concatArray(toRaw(thislist.list),toRaw(newVal.list), newVal.key) : toRaw(newVal.list)
       }
     )
 
-    function handleChange(index, isChecked) {
-      console.log(111, index, thisActivelist.list.length)
-      let item = thislist.list[index]
-      if(isChecked) {
-        thisActivelist.list.push(item)
-        activeIds.list.push(item[props.key])
-      }else {
-        thisActivelist.list.splice(index, 1);
-        activeIds.list.splice(index, 1);
+    function concatArray(arr1, arr2, key) {
+      let res = arr1
+      if(key) {
+        let keys1 = []
+        arr1.forEach(item => {
+          keys1.push(item[key])
+        })
+        arr2.forEach(item => {
+          if(keys1.indexOf(item[key]) < 0) {
+            res.push(item)
+          }
+        })
+      } else {
+        arr2.forEach(item => {
+          if(arr1.indexOf(item) < 0) {
+            res.push(item)
+          }
+        })
       }
-      console.log(222, index, thisActivelist.list.length)
-      emit("change", toRaw(activeIds.list), toRaw(thisActivelist.list))
+      return res
+    }
+
+    function handleChange(index, isChecked) {
+      index = Number(index)
+      let k = props.key
+      let activeList = []
+      let unActiveList = []
+      for(let item of thislist.list) {
+        if(activeIds.list.indexOf(item[k]) > -1) {
+          activeList.push(toRaw(item))
+        }else {
+          unActiveList.push(toRaw(item))
+        }
+      }
+      let item = thislist.list[index]
+      let isHas = activeIds.list.indexOf(item[k]) > -1
+      if(isChecked) {
+        if(!isHas) {
+          activeIds.list.push(item[k])
+          activeList.push(toRaw(item))
+          for(let i in unActiveList) {
+            if(unActiveList[i][k] === item[k]) {
+              unActiveList.splice(i, 1)
+            }
+          }
+        }
+      }else if(isHas){
+        activeIds.list.splice(index, 1);
+        activeList.splice(index, 1);
+        unActiveList.push(toRaw(item))
+      }
+      emit("change", isChecked, toRaw(item), toRaw(activeIds.list), activeList, unActiveList)
     }
 
     function getActive(item) {
-      let res = activeIds.list.indexOf(item[props.key]) > -1
-      // console.log(toRaw(thisActivelist.list), toRaw(thislist.list), res)
-      return res
+      return activeIds.list.indexOf(item[props.key]) > -1
     }
 
     return {
       listForm,
       thislist,
-      thisActivelist,
       scrollH,
       getActive,
       handleChange,

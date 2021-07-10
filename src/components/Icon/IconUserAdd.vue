@@ -20,12 +20,12 @@ export default {
   },
   setup(props) {
     const showModal = ref(false)
-    // const thislist = reactive({ list: props.list})
-    const thislist = reactive({ list: [
-      {key: "1", name: "11", avatar: ''},
-      {key: "2", name: "22", avatar: ''},
+    const thislist = reactive({ list: props.list})
+    // const thislist = reactive({ list: [
+    //   {key: "1", name: "11", avatar: ''},
+    //   {key: "2", name: "22", avatar: ''},
 
-    ]})
+    // ]})
     const thisActivelist = reactive({ list: props.activelist})
 
     watch(

@@ -1,18 +1,25 @@
 <template>
   <modal-base :show="isShow" width="500px" height="300px" @close="handleClose" :opacity="0.12">
     <div class="popup-box">
+      <button class="submit-btn" @click="handleSubmit">发起群聊</button>
       <div class="left">
-        <user-list :list="thislist.list" :activelist="thisActiveIds.list" @change="handleChangeListLeft" />
+        <!-- <p class="list-top">
+          <input type="checkbox" name="" id="">全选
+        </p> -->
+        <user-list :list="thislist.list" :activelist="thisActiveIds.list" :append="!isAdd" @change="handleChangeListLeft" />
       </div>
       <div class="right">
-        <user-list :list="thisActivelist.list" :activelist="thisActiveIds.list"  @change="handleChangeListRight" />
+        <!-- <p class="list-top">
+          <input type="checkbox" name="" id="">全部取消
+        </p> -->
+        <user-list :list="thisActivelist.list" :activelist="thisActiveIds.list" :append="isAdd" @change="handleChangeListRight" />
       </div>
     </div>
   </modal-base>
 </template>
 
 <script>
-import { ref, watch, reactive, toRaw } from 'vue'
+import { ref, watch, reactive } from 'vue'
 import ModalBase from './ModalBase.vue'
 import { UserList } from '../../List'
 export default {
@@ -38,6 +45,7 @@ export default {
   },
   emits: ["close"],
   setup(props, {emit}) {
+    const isAdd = ref(false)
     const isShow = ref(props.show)
     const thislist = reactive({ list: props.list})
     const thisActivelist = reactive({ list: props.activelist})
@@ -58,24 +66,35 @@ export default {
       emit("close")
     }
 
-    function handleChangeListLeft(ids, activelist) {
-      thislist.list = toRaw(thislist.list).filter(item=>ids.indexOf(item["key"]) > -1 ? false : item)
+    function handleChangeListLeft(isChecked, item, ids, activelist, unActiveList) {
+      if(!isChecked) return
+      isAdd.value = isChecked
+      thislist.list = unActiveList
       thisActivelist.list = activelist
       thisActiveIds.list = ids
+      // console.log(22, item)
     }
 
-    function handleChangeListRight(ids, activelist) {
-      thislist.list = toRaw(thislist.list).filter(item=>ids.indexOf(item["key"]) < 0 ? false : item)
+    function handleChangeListRight(isChecked, item, ids, activelist, unActiveList) {
+      if(isChecked) return
+      isAdd.value = isChecked
+      thislist.list = unActiveList
       thisActivelist.list = activelist
       thisActiveIds.list = ids
-      console.log(ids, activelist)
+      // console.log(33, item)
+    }
+
+    function handleSubmit() {
+      console.log("发起群聊")
     }
 
     return {
+      isAdd,
       isShow,
       thislist,
       thisActivelist,
       thisActiveIds,
+      handleSubmit,
       handleClose,
       handleChangeListLeft,
       handleChangeListRight,
@@ -99,5 +118,35 @@ export default {
   width: 50%;
   float: left;
 }
+.list-top {
+  padding: 10px;
+  font-size: 14px;
+  color: #999;
+}
+.list-top input {
+  margin-right: 4px;
+}
+.popup-box {
+  padding-bottom: 40px;
+}
+.submit-btn {
+  position: absolute;
+  padding: 0 10px;
+  height: 30px;
+  line-height: 30px;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--blue);
+  color: #fff;
+  border: none;
+  outline: none;
+  border-radius: 4px;
 
+}
+.submit-btn:hover {
+  opacity: 0.8;
+}
+.submit-btn:active {
+  opacity: 0.9;
+}
 </style>

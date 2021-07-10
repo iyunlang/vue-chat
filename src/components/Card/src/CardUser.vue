@@ -1,7 +1,7 @@
 <template>
   <div class="card-user">
     <div class="check" v-show="checkable">
-      <input type="checkbox" name="person" :value="value" v-model="isChecked" @change="handleChange">
+      <input type="checkbox" name="person" :value="isChecked" v-model="isChecked" @change="handleChange">
     </div>
     <img-avatar imgClass="card-user-avatar" :hasInfo="hasInfo" size="36px" :src="src"/>
     <span class="card-user-name">{{name}}</span>
@@ -49,7 +49,6 @@ export default defineComponent({
     )
 
     function handleChange() {
-      
       if (props.checkable) {
         emit("change", props.index, unref(isChecked))
       }
