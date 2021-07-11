@@ -1,15 +1,26 @@
 <template>
     <img 
-    class="img-avatar"
-    :class="imgClass"
-    :src="src" 
-    :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
-    alt="" 
-    @click="handleClick"
-    :style="{
-      width:size,
-      height:size,
-    }">
+      v-if="groupclass === 1"
+      class="img-avatar"
+      :class="imgClass"
+      :src="src" 
+      :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
+      alt="" 
+      @click="handleClick"
+      :style="{
+        width:size,
+        height:size,
+      }">
+    <div class="img-box" v-else-if="groupclass === 2" @click="handleClick" :style="{ width:size, height:size}">
+      <img 
+      v-for="user in users"
+      v-bind:key="user.userId"
+      class="img-avatar"
+      :class="imgClass"
+      :src="user.avatar" 
+      :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
+      alt="" >
+    </div>
     <modal-userinfo :position="position" :show="showModal" @close="handleCloseModal" />
 </template>
 
@@ -21,11 +32,16 @@ export default defineComponent({
   name: 'ImgAvatar',
   components: { ModalUserinfo },
   props: {
+    groupclass: {
+      type: Number,
+      default: 1, //1用户聊天 2群聊聊天
+    },
+    users: Array,
+    src: String,
     size: {
       type: String,
       default: "38px",
     },
-    src: String,
     hasInfo: {
       type: Boolean,
       default: false
@@ -61,10 +77,18 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  img {
+  .img-box, img {
     width: 38px;
     height: 38px;
-    background-color: #f5f5f5;
     border-radius: 4px;
+  }
+  .img-box .img-avatar {
+    width: 45%;
+    height: 45%;
+    float: left;
+    border-radius: 4px;
+  }
+  .img-box .img-avatar:nth-child(2n+1) {
+    margin-right: 4px;
   }
 </style>

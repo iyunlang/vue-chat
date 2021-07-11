@@ -1,21 +1,48 @@
 <template>
   <div class="chat-center">
       <div class="chat-center-top">
-          <span>To: <span class="name">Dog Woofson</span></span>
+          <span><span class="name">{{data.tit}}</span></span>
       </div>
-      <chat-msg-list/>
-      <form-send/>
+      <chat-msg-list :groupId="data.gId"/>
+      <form-send :groupId="data.gId"/>
   </div>
 </template>
 
 <script>
+import { reactive, watch } from 'vue'
 import {ChatMsgList} from './List'
 import {FormSend} from './Form'
 export default {
   name: 'LayoutCenter',
   components: { FormSend, ChatMsgList },
   props: {
-    msg: String
+    groupId: {
+      type: String || Number,
+      require: true,
+    },
+    title: {
+      type: String || Number,
+      require: true
+    }
+  },
+  setup(props) {
+
+    const data = reactive({
+      tit: props.title,
+      gId: props.groupId,
+    })
+
+    watch(
+      props,
+      (newVal) => {
+        data.tit = newVal.title;
+        data.gId = newVal.groupId;
+      }
+    )
+
+    return {
+      data,
+    }
   }
 }
 </script>

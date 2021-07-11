@@ -17,7 +17,7 @@ export default defineComponent({
   props: {
     checkable: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     checked: {
       type: Boolean,

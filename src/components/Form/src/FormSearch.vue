@@ -9,7 +9,10 @@ import { ref } from 'vue'
 export default {
   name: 'ChatSearch',
   props: {
-    
+    groupId: {
+      type: String || Number,
+      require: true,
+    },
   },
   setup() {
     const search = ref("")

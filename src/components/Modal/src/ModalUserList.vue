@@ -6,13 +6,13 @@
         <!-- <p class="list-top">
           <input type="checkbox" name="" id="">全选
         </p> -->
-        <user-list :list="thislist.list" :activelist="thisActiveIds.list" :append="!isAdd" @change="handleChangeListLeft" />
+        <user-list :list="thislist.list" :checkable="true" :activelist="thisActiveIds.list" :append="!isAdd" @change="handleChangeListLeft" />
       </div>
       <div class="right">
         <!-- <p class="list-top">
           <input type="checkbox" name="" id="">全部取消
         </p> -->
-        <user-list :list="thisActivelist.list" :activelist="thisActiveIds.list" :append="isAdd" @change="handleChangeListRight" />
+        <user-list :list="thisActivelist.list" :checkable="true" :activelist="thisActiveIds.list" :append="isAdd" @change="handleChangeListRight" />
       </div>
     </div>
   </modal-base>

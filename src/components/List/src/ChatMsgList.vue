@@ -53,7 +53,10 @@ export default {
   name: 'ChatMsgList',
   components: { ScrollBox },
   props: {
-    
+    groupId: {
+      type: String || Number,
+      require: true,
+    }, 
   },
   setup() {
     const newsNum = ref(172)

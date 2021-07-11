@@ -2,14 +2,14 @@
   <div class="chat-left">
     <div v-if="k === 'msg'">
       <div class="chat-left-top">
-        <chat-search/>
+        <form-search/>
         <icon-user-add iconSize="34px" />
       </div>
       <user-msg-list/>
     </div>
     <div v-if="k === 'person'">
       <div class="chat-left-top">
-        <chat-search/>
+        <form-search/>
         <icon-user-add iconSize="34px" />
       </div>
       <user-list/>
@@ -20,12 +20,12 @@
 <script>
 import { ref, watch } from 'vue'
 
-import { ChatSearch } from './Search'
+import { FormSearch } from './Form'
 import { UserMsgList, UserList } from './List'
 import { IconUserAdd } from './Icon'
 export default {
   name: 'LayoutLeft',
-  components: { ChatSearch, UserMsgList, UserList, IconUserAdd },
+  components: { FormSearch, UserMsgList, UserList, IconUserAdd },
   props: {
     active: {
       type: String,

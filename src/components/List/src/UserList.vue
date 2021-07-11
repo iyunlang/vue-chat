@@ -3,7 +3,7 @@
     <div class="user-list-wrapper">
       <form action="false" class="user-list" ref="listForm">
           <div class="user-list-item" v-for="(item, index) in thislist.list" v-bind:key="index">
-            <card-user :index="`${index}`" :checked="getActive(item)" :value="item.key" :name="item.name" :src="item.avatar" @change="handleChange" />
+            <card-user :index="`${index}`" :checked="getActive(item)" :checkable="checkable" :value="item.key" :name="item.name" :src="item.avatar" @change="handleChange" />
           </div>
       </form>
     </div>
@@ -18,6 +18,10 @@ export default {
   name: 'UserList',
   components: { ScrollBox, CardUser },
   props: {
+    checkable: {
+      type: Boolean,
+      default: false,
+    },
     append: {
       type: Boolean,
       default: false,
@@ -39,8 +43,13 @@ export default {
   setup(props, { emit }) {
     const listForm = ref()
     const scrollH = ref(`100%`)
-    const thislist = reactive({ list: props.list})
+    // const thislist = reactive({ list: props.list})
     const activeIds = reactive({ list: props.activelist})
+    const thislist = reactive({ list: [
+      {key: "1", name: "11", avatar: ''},
+      {key: "2", name: "22", avatar: ''},
+
+    ]})
 
     watch(
       props, 
