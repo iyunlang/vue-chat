@@ -1,7 +1,10 @@
 <template>
   <app-provider>
-    <!-- <router-view /> -->
-    <div class="chat-wrapper">
+    <!-- <div class="conn-tip">
+      <span>正在连接</span> <br>
+      <img src="https://iyunlang.top/assets/gif-loading/12.gif"/>
+    </div> -->
+    <div class="chat-wrapper" :class="!getIsMobile?'':'full is-mobile'">
         <div class="chat-container">
             <layout-nav :active="key" @change="handleNavChange"/>
             <div class="chat-main">
@@ -22,6 +25,7 @@ import LayoutNav from './components/LayoutNav.vue'
 import LayoutLeft from './components/LayoutLeft.vue'
 import LayoutCenter from './components/LayoutCenter.vue'
 import LayoutRight from './components/LayoutRight.vue'
+import { useApp } from './hooks/useApp'
 
 export default {
   name: 'App',
@@ -36,6 +40,8 @@ export default {
     const key = ref("msg")
     const showRight = ref(false)
 
+    const { getIsMobile, getIsConnected } = useApp()
+
     function handleNavChange(val) {
       key.value = val
     }
@@ -43,6 +49,8 @@ export default {
     return {
       key,
       showRight,
+      getIsMobile,
+      getIsConnected,
       handleNavChange,
     }
   }

@@ -1,9 +1,9 @@
 <template>
   <scroll-box :style="{height:scrollH}">
     <div class="user-list-wrapper">
-      <form action="false" class="user-list" ref="listForm">
+      <form action="false" class="user-list" ref="listForm" v-if="thislist.list.length">
           <div class="user-list-item" v-for="(item, index) in thislist.list" v-bind:key="index">
-            <card-user :index="`${index}`" :checked="getActive(item)" :checkable="checkable" :value="item.key" :name="item.name" :src="item.avatar" @change="handleChange" />
+            <card-user :index="index" :checked="getActive(item)" :checkable="checkable" :value="item.key" :name="item.name" :src="item.avatar" @change="handleChange" />
           </div>
       </form>
     </div>
@@ -22,99 +22,42 @@ export default {
       type: Boolean,
       default: false,
     },
-    append: {
-      type: Boolean,
-      default: false,
-    },
     list: {
       type: Array,
       default: new Array(),
     },
-    activelist: {
+    activeIds: {
       type: Array,
       default: new Array(),
     },
     key: {
       type: String,
-      default: 'key',
+      default: 'id',
     }
   },
   emits: ["change"],
   setup(props, { emit }) {
     const listForm = ref()
     const scrollH = ref(`100%`)
-    // const thislist = reactive({ list: props.list})
-    const activeIds = reactive({ list: props.activelist})
-    const thislist = reactive({ list: [
-      {key: "1", name: "11", avatar: ''},
-      {key: "2", name: "22", avatar: ''},
-
-    ]})
+    const thislist = reactive({ list: props.list})
+    const thisActiveIds = reactive({ list: props.activeIds})
 
     watch(
       props, 
       (newVal) => { 
-        activeIds.list = newVal.append ? concatArray(toRaw(activeIds.list),toRaw(newVal.activelist)) : toRaw(newVal.activelist)
-        thislist.list = newVal.append ? concatArray(toRaw(thislist.list),toRaw(newVal.list), newVal.key) : toRaw(newVal.list)
+        thislist.list = newVal.list
+        thisActiveIds.list = newVal.activeIds
       }
     )
 
-    function concatArray(arr1, arr2, key) {
-      let res = arr1
-      if(key) {
-        let keys1 = []
-        arr1.forEach(item => {
-          keys1.push(item[key])
-        })
-        arr2.forEach(item => {
-          if(keys1.indexOf(item[key]) < 0) {
-            res.push(item)
-          }
-        })
-      } else {
-        arr2.forEach(item => {
-          if(arr1.indexOf(item) < 0) {
-            res.push(item)
-          }
-        })
-      }
-      return res
-    }
-
     function handleChange(index, isChecked) {
-      index = Number(index)
-      let k = props.key
-      let activeList = []
-      let unActiveList = []
-      for(let item of thislist.list) {
-        if(activeIds.list.indexOf(item[k]) > -1) {
-          activeList.push(toRaw(item))
-        }else {
-          unActiveList.push(toRaw(item))
-        }
-      }
-      let item = thislist.list[index]
-      let isHas = activeIds.list.indexOf(item[k]) > -1
-      if(isChecked) {
-        if(!isHas) {
-          activeIds.list.push(item[k])
-          activeList.push(toRaw(item))
-          for(let i in unActiveList) {
-            if(unActiveList[i][k] === item[k]) {
-              unActiveList.splice(i, 1)
-            }
-          }
-        }
-      }else if(isHas){
-        activeIds.list.splice(index, 1);
-        activeList.splice(index, 1);
-        unActiveList.push(toRaw(item))
-      }
-      emit("change", isChecked, toRaw(item), toRaw(activeIds.list), activeList, unActiveList)
+      let item = toRaw(thislist.list[index])
+      emit("change",isChecked, index, item)
     }
 
     function getActive(item) {
-      return activeIds.list.indexOf(item[props.key]) > -1
+      let res = thisActiveIds.list.indexOf(item[props.key]) > -1
+      return res
     }
 
     return {

@@ -23,8 +23,8 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    index: String||Number,
-    value: String||Number,
+    index: [String,Number],
+    value: [String,Number],
     hasInfo: {
       type: Boolean,
       default: false,

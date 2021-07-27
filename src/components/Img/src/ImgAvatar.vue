@@ -4,7 +4,7 @@
       class="img-avatar"
       :class="imgClass"
       :src="src" 
-      :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
+      :onerror="`onerror=null;src='https://iyunlang.top/assets/images/avatar3.png'`" 
       alt="" 
       @click="handleClick"
       :style="{
@@ -18,7 +18,7 @@
       class="img-avatar"
       :class="imgClass"
       :src="user.avatar" 
-      :onerror="`onerror=null;src='https://oss.iyunlang.top/assets/images/avatar2.png'`" 
+      :onerror="`onerror=null;src='https://iyunlang.top/assets/images/avatar3.png'`" 
       alt="" >
     </div>
     <modal-userinfo :position="position" :show="showModal" @close="handleCloseModal" />
@@ -81,6 +81,9 @@ export default defineComponent({
     width: 38px;
     height: 38px;
     border-radius: 4px;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    background-color: #fff;
   }
   .img-box .img-avatar {
     width: 45%;

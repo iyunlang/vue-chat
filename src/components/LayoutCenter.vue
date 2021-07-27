@@ -3,25 +3,21 @@
       <div class="chat-center-top">
           <span><span class="name">{{data.tit}}</span></span>
       </div>
-      <chat-msg-list :groupId="data.gId"/>
-      <form-send :groupId="data.gId"/>
+      <chat-msg-list/>
+      <form-chat/>
   </div>
 </template>
 
 <script>
 import { reactive, watch } from 'vue'
 import {ChatMsgList} from './List'
-import {FormSend} from './Form'
+import {FormChat} from './Form'
 export default {
   name: 'LayoutCenter',
-  components: { FormSend, ChatMsgList },
+  components: { FormChat, ChatMsgList },
   props: {
-    groupId: {
-      type: String || Number,
-      require: true,
-    },
     title: {
-      type: String || Number,
+      type: [String,Number],
       require: true
     }
   },
@@ -29,14 +25,12 @@ export default {
 
     const data = reactive({
       tit: props.title,
-      gId: props.groupId,
     })
 
     watch(
       props,
       (newVal) => {
         data.tit = newVal.title;
-        data.gId = newVal.groupId;
       }
     )
 

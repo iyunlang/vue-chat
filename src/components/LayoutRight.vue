@@ -88,7 +88,7 @@ export default {
   cursor: pointer;
   position: absolute;
   right: 0;
-  top: 10px;
+  top: 8px;
   background-color: #fff;
   box-shadow: 0 0 10px 1px rgba(0,0,0,0.10);
   padding: 8px;

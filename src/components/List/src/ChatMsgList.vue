@@ -1,48 +1,25 @@
 <template>
     <scroll-box :go="scrollTo" @reach="handleScrollReach">
       <div class="chat-msg-list">
-        <div class="chat-msg-list-item active-chat" data-chat="person1">
-            <div class="conversation-start">
-                <span>Today, 3:38 AM</span>
-            </div>
-            <div class="bubble you">
-                Hey human!
-            </div>
-            <div class="bubble you">
-                Umm... Someone took a shit in the hallway.
-            </div>
-            <div class="bubble me">
-                ... what.
-            </div>
-            <div class="bubble me">
-                Are you serious?
-            </div>
-            <div class="bubble you">
-                I mean...
-            </div>
-            <div class="bubble you">
-                It’s not that bad...
-            </div>
-            <div class="bubble you">
-                But we’re probably gonna need a new carpet.
-            </div>
-        </div>
-        <div class="chat-msg-list-item active-chat" data-chat="person2">
-            <div class="conversation-start">
+        <div class="chat-msg-list-item active-chat">
+            <!-- <div class="conversation-start">
                 <span>Today, 5:38 PM</span>
+            </div> -->
+            <div class="bubble you">
+              <img class="msg-avatar" :src="''" alt="" :onerror="`onerror=null;src='https://iyunlang.top/assets/images/avatar3.png'`">
+              <div class="msg-content">Hello</div>
             </div>
             <div class="bubble you">
-                Hello, can you hear me?
-            </div>
-            <div class="bubble you">
-                I'm in California dreaming
+              <img class="msg-avatar" :src="''" alt="" :onerror="`onerror=null;src='https://iyunlang.top/assets/images/avatar3.png'`">
+              <div class="msg-content">I'm in California dreaming</div>
             </div>
             <div class="bubble me">
-                ... about who we used to be.
+              <img class="msg-avatar" :src="''" alt="" :onerror="`onerror=null;src='https://iyunlang.top/assets/images/avatar3.png'`">
+              <div class="msg-content">... about who we used to be.</div>
             </div>
         </div>
       </div>
-      <div v-if="newsNum > 40" class="show-new-list" @click="handleShowNews"><icon-font name="xiangshang" :color="'#fff'"/>{{newsNum}}条新信息</div>
+      <!-- <div v-if="newsNum > 40" class="show-new-list" @click="handleShowNews"><icon-font name="xiangshang" :color="'#fff'"/>{{newsNum}}条新信息</div> -->
     </scroll-box>
 </template>
 
@@ -53,10 +30,7 @@ export default {
   name: 'ChatMsgList',
   components: { ScrollBox },
   props: {
-    groupId: {
-      type: String || Number,
-      require: true,
-    }, 
+
   },
   setup() {
     const newsNum = ref(172)
@@ -90,6 +64,7 @@ export default {
   width: 100%;
   top: 48px;
   bottom: 185px;
+  background-color: #fff;
 }
 .show-new-list {
   cursor: pointer;
@@ -116,6 +91,8 @@ export default {
   /* position: absolute;
   bottom: 0;
   width: 100%; */
+  display: inline-block;
+  width: 100%;
 }
 .chat-msg-list-item {
   position: relative;
@@ -127,9 +104,35 @@ export default {
   justify-content: flex-end;
   flex-direction: column;
 }
+.msg-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+}
+.chat-msg-list-item h1 {
+  font-size: 15px;
+  font-weight: bold;
+}
+.chat-msg-list-item p {
+  font-size: 12px;
+  color: #999;
+}
+.bubble {
+  box-sizing: border-box;
+  max-width: 80%;
+}
+.bubble.type5 {
+  width: 300px;
+}
 .chat-msg-list-item.active-chat {
   display: block;
   display: flex;
+}
+.bubble >>> .img-avatar-group {
+  float: right;
+  margin-left: 12px;
 }
 .chat-msg-list-item.active-chat .bubble {
   transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
@@ -175,17 +178,16 @@ export default {
           animation-duration: 1.5s;
 }
 /* 动画 */
-.chat-msg-list-item .bubble {
-  font-size: 16px;
-  position: relative;
-  display: inline-block;
-  clear: both;
-  margin-bottom: 8px;
-  padding: 13px 14px;
-  vertical-align: top;
+.chat-msg-list-item .msg-content {
+  line-height: 21px;
+  font-size: 15px;
+  padding: 8px 10px;
   border-radius: 5px;
+  vertical-align: top;
+  position: relative;
+
 }
-.chat-msg-list-item .bubble:before {
+.chat-msg-list-item .msg-content:before {
   position: absolute;
   top: 19px;
   display: block;
@@ -195,27 +197,44 @@ export default {
   -webkit-transform: rotate(29deg) skew(-35deg);
           transform: rotate(29deg) skew(-35deg);
 }
+.chat-msg-list-item .bubble {
+  display: inline-block;
+  clear: both;
+  margin-bottom: 8px;
+}
 .chat-msg-list-item .bubble.you {
   float: left;
-  color: var(--white);
-  background-color: var(--blue);
   align-self: flex-start;
   -webkit-animation-name: slideFromLeft;
           animation-name: slideFromLeft;
 }
-.chat-msg-list-item .bubble.you:before {
+.chat-msg-list-item .bubble.you .msg-avatar{
+  float: left;
+}
+.chat-msg-list-item .bubble.you .msg-content {
+  color: var(--white);
+  background-color: var(--blue);
+  margin-left: 48px;
+}
+.chat-msg-list-item .bubble.you .msg-content:before {
   left: -3px;
   background-color: var(--blue);
 }
 .chat-msg-list-item .bubble.me {
   float: right;
-  color: var(--dark);
-  background-color: #eceff1;
   align-self: flex-end;
   -webkit-animation-name: slideFromRight;
           animation-name: slideFromRight;
 }
-.chat-msg-list-item .bubble.me:before {
+.chat-msg-list-item .bubble.me .msg-avatar {
+  float: right;
+}
+.chat-msg-list-item .bubble.me .msg-content {
+  color: var(--dark);
+  background-color: #eceff1;
+  margin-right: 48px;
+}
+.chat-msg-list-item .bubble.me .msg-content:before {
   right: -3px;
   background-color: #eceff1;
 }
@@ -286,5 +305,4 @@ export default {
     opacity: 1;
   }
 }
-
 </style>

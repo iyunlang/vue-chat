@@ -1,6 +1,6 @@
 <template>
     <icon-svg @click="handleAdd" name="tubiaozhizuomoban" :size="iconSize" :color="iconColor" />
-    <modal-user-list :show="showModal" :list="thislist.list" :activelist="thisActivelist.list" @close="handleCloseModal" />
+    <modal-user-list :show="showModal" :list="thislist.list" :activelist="thisActiveIds.list" @close="handleCloseModal" />
 </template>
 
 <script>
@@ -15,24 +15,18 @@ export default {
     iconSize: String,
     iconColor: String,
     ...SizeProps,
-    list: Array,
-    activelist: Array,
+    ...ModalUserList.props,
   },
   setup(props) {
     const showModal = ref(false)
     const thislist = reactive({ list: props.list})
-    // const thislist = reactive({ list: [
-    //   {key: "1", name: "11", avatar: ''},
-    //   {key: "2", name: "22", avatar: ''},
-
-    // ]})
-    const thisActivelist = reactive({ list: props.activelist})
+    const thisActiveIds = reactive({ list: props.activeIds})
 
     watch(
       props, 
       (newVal) => { 
         if(thislist.list !== newVal.list) thislist.list = newVal.list
-        if(thisActivelist.list !== newVal.activelist) thisActivelist.list = newVal.activelist
+        if(thisActiveIds.list !== newVal.activeIds) thisActiveIds.list = newVal.activeIds
       }
     )
 
@@ -41,12 +35,14 @@ export default {
     }
 
     function handleCloseModal() {
+      thislist.list = []
+      thisActiveIds.list = []
       showModal.value = false
     }
 
     return {
       thislist,
-      thisActivelist,
+      thisActiveIds,
       showModal,
       handleAdd,
       handleCloseModal,

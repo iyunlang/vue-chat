@@ -11,8 +11,8 @@ import { ref, onMounted, unref, watch } from 'vue'
 export default {
   name: 'ScrollBox',
   props: {
-    style: Object||String,
-    go: Number||String,
+    style: [Object,Number],
+    go: [String,Number],
   },
   emits: ['top', 'bottom', 'reach'],
   setup(props, {emit}) {

@@ -2,14 +2,14 @@
   <scroll-box :style="{height:scrollH}">
     <div class="msg-wrapper">
       <ul class="msg-list">
-          <li class="msg-cart" data-chat="person1">
-              <img-avatar imgClass="msg-avatar" hasInfo src=""/>
+          <li class="msg-cart active" data-chat="person1">
+              <img-avatar imgClass="msg-avatar" src=""/>
               <span class="msg-name">Thomas Bangalter</span>
               <span class="msg-time">2:09 PM</span>
               <span class="msg-preview">I was wondering...</span>
           </li>
           <li class="msg-cart" data-chat="person2">
-              <img-avatar imgClass="msg-avatar" hasInfo src=""/>
+              <img-avatar imgClass="msg-avatar" src=""/>
               <span class="msg-name">Dog Woofson</span>
               <span class="msg-time">2:09 PM</span>
               <span class="msg-preview">I was wondering...</span>
@@ -100,7 +100,7 @@ export default {
   border: 0;
   background-color: var(--blue);
   width: calc(100% + 2px);
-  padding-left: calc(10% + 1px);
+  /* padding-left: calc(10% + 1px); */
 }
 .msg-cart.active span, .msg-cart:hover span {
   color: var(--white);
