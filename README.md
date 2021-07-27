@@ -1,5 +1,7 @@
 # vue-chat
 
+![RUNOOB 演示](https://img-blog.csdnimg.cn/b846d2c06325480589c1ec07900d04ac.gif#pic_center)
+
 ## Project setup
 ```
 npm install
